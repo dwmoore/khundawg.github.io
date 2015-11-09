@@ -2,17 +2,14 @@
 title: davemoore.io
 email: dave@davemoore.io
 description: All the things that aggrivated me enough to write for an hour...
-baseurl: "/blog" # the subpath of your site, e.g. /blog
+baseurl: "/blog/" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site
 enable_retina: false
 permalink: :title
 nav_list:
   Home : ['Home', '/', 'fa-home']
-  Home_Alt : ['Home Alt', '/home-alt', 'fa-home']
-  Home_Alt_2 : ['Home Alt 2', '/home-alt-2/', 'fa-home']
-  About : ['About', '/about', 'fa-anchor']
+  About : ['About Me', '/about', 'fa-street-view']
   Contact : ['Contact', '/contact', 'fa-plane']
-  Author : ['Author', '/author/michelle', 'fa-user']
 single_footer: '<p>Thats all folks! &copy; 2015 <a href="/">latest posts</a></p>'
 footer_links:
     About: ['About', '/about']
