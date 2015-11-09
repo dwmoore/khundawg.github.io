@@ -3,10 +3,10 @@
   <channel>
     <title>davemoore.io</title>
     <description>All the things that aggrivated me enough to write for an hour...</description>
-    <link>/blog//</link>
-    <atom:link href="/blog//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 09 Nov 2015 00:22:46 -0500</pubDate>
-    <lastBuildDate>Mon, 09 Nov 2015 00:22:46 -0500</lastBuildDate>
+    <link>/blog/</link>
+    <atom:link href="/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 09 Nov 2015 11:45:10 -0500</pubDate>
+    <lastBuildDate>Mon, 09 Nov 2015 11:45:10 -0500</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
     
       <item>
@@ -14,8 +14,8 @@
         <description>&lt;p&gt;Here is a intro…&lt;/p&gt;
 </description>
         <pubDate>Mon, 09 Nov 2015 00:00:00 -0500</pubDate>
-        <link>/blog//my-mvp-stack</link>
-        <guid isPermaLink="true">/blog//my-mvp-stack</guid>
+        <link>/blog/my-mvp-stack</link>
+        <guid isPermaLink="true">/blog/my-mvp-stack</guid>
         
         
         <category>code</category>
@@ -28,8 +28,8 @@
 table.&lt;/p&gt;
 </description>
         <pubDate>Sat, 07 Nov 2015 00:00:00 -0500</pubDate>
-        <link>/blog//white-boarding</link>
-        <guid isPermaLink="true">/blog//white-boarding</guid>
+        <link>/blog/white-boarding</link>
+        <guid isPermaLink="true">/blog/white-boarding</guid>
         
         
         <category>travel</category>
@@ -43,8 +43,8 @@ table.&lt;/p&gt;
         <description>&lt;p&gt;Here is a test post to see if I have this working right.&lt;/p&gt;
 </description>
         <pubDate>Sun, 01 Nov 2015 03:50:28 -0500</pubDate>
-        <link>/blog//test-post</link>
-        <guid isPermaLink="true">/blog//test-post</guid>
+        <link>/blog/test-post</link>
+        <guid isPermaLink="true">/blog/test-post</guid>
         
         
         <category>travel</category>
@@ -79,8 +79,8 @@ table.&lt;/p&gt;
 &lt;p&gt;Grunt&lt;/p&gt;
 </description>
         <pubDate>Wed, 11 Feb 2015 03:50:28 -0500</pubDate>
-        <link>/blog//supercharge-your-workflow-with-grunt</link>
-        <guid isPermaLink="true">/blog//supercharge-your-workflow-with-grunt</guid>
+        <link>/blog/supercharge-your-workflow-with-grunt</link>
+        <guid isPermaLink="true">/blog/supercharge-your-workflow-with-grunt</guid>
         
         
         <category>coding</category>
@@ -110,8 +110,8 @@ table.&lt;/p&gt;
 &lt;p&gt;Dreamcatcher cold-pressed American Apparel, post-ironic Carles Shoreditch craft beer Banksy PBR retro distillery before they sold out freegan asymmetrical kogi. Food truck Schlitz direct trade, deep v ethical yr sriracha mumblecore freegan. Tattooed occupy pork belly, letterpress typewriter cold-pressed viral swag farm-to-table flexitarian. +1 hashtag put a bird on it authentic. 3 wolf moon locavore Vice, normcore actually meggings leggings cornhole brunch. Four loko vinyl trust fund, Intelligentsia wolf Bushwick lo-fi sriracha. Deep v vegan forage selvage.&lt;/p&gt;
 </description>
         <pubDate>Wed, 11 Feb 2015 03:50:28 -0500</pubDate>
-        <link>/blog//css-with-superpowers</link>
-        <guid isPermaLink="true">/blog//css-with-superpowers</guid>
+        <link>/blog/css-with-superpowers</link>
+        <guid isPermaLink="true">/blog/css-with-superpowers</guid>
         
         
         <category>coding</category>
@@ -126,7 +126,7 @@ table.&lt;/p&gt;
 
 &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati doloribus, culpa, et suscipit praesentium incidunt, libero officiis ipsum fugiat odit aperiam commodi unde dignissimos veritatis accusamus molestias iste magni nobis?&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;//blog/img/post-assets/fire.jpg&quot; alt=&quot;Fire image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;//blogimg/post-assets/fire.jpg&quot; alt=&quot;Fire image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Kale chips bespoke church-key American Apparel flannel pickled. Mlkshk High Life Blue Bottle, leggings gastropub four dollar toast post-ironic fap American Apparel VHS. Cliche cold-pressed single-origin coffee mlkshk retro distillery. 3 wolf moon Tumblr selvage semiotics food truck. Intelligentsia Pitchfork meh sriracha chambray, fanny pack lomo irony fap pickled stumptown. Twee +1 artisan, cred ethical gluten-free 90’s four loko Odd Future cronut small batch organic. Seitan hashtag jean shorts art party messenger bag.&lt;/p&gt;
 
@@ -138,8 +138,8 @@ table.&lt;/p&gt;
 
 </description>
         <pubDate>Wed, 11 Feb 2015 03:50:28 -0500</pubDate>
-        <link>/blog//ten-reasons-to-travel-the-world</link>
-        <guid isPermaLink="true">/blog//ten-reasons-to-travel-the-world</guid>
+        <link>/blog/ten-reasons-to-travel-the-world</link>
+        <guid isPermaLink="true">/blog/ten-reasons-to-travel-the-world</guid>
         
         
         <category>travel</category>
@@ -180,8 +180,8 @@ table.&lt;/p&gt;
 &lt;p&gt;Good luck, and welcome!&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Feb 2015 00:00:00 -0500</pubDate>
-        <link>/blog//why-react-js-will-change-the-world</link>
-        <guid isPermaLink="true">/blog//why-react-js-will-change-the-world</guid>
+        <link>/blog/why-react-js-will-change-the-world</link>
+        <guid isPermaLink="true">/blog/why-react-js-will-change-the-world</guid>
         
         
         <category>coding</category>
@@ -206,8 +206,8 @@ table.&lt;/p&gt;
 
 </description>
         <pubDate>Tue, 10 Feb 2015 00:00:00 -0500</pubDate>
-        <link>/blog//fake-it-until-you-make-it</link>
-        <guid isPermaLink="true">/blog//fake-it-until-you-make-it</guid>
+        <link>/blog/fake-it-until-you-make-it</link>
+        <guid isPermaLink="true">/blog/fake-it-until-you-make-it</guid>
         
         
         <category>motivation</category>
@@ -231,8 +231,8 @@ table.&lt;/p&gt;
 &lt;p&gt;Aenean commodo, massa quis mattis lacinia, mi ipsum vestibulum nisi, ut tincidunt massa erat quis neque. Aliquam volutpat eu ligula a tincidunt. Suspendisse imperdiet, lacus vitae pretium imperdiet, nisi elit efficitur felis, id ullamcorper nulla dolor ac massa. In rutrum eget nisi et maximus. Nam consequat libero et feugiat lobortis. Donec sit amet felis faucibus, egestas enim id, condimentum justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed aliquam, nisl vel volutpat semper, mi lacus tempus ante, hendrerit consequat massa lorem at lacus. Phasellus vel felis scelerisque, consectetur arcu ac, euismod massa.&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Feb 2015 00:00:00 -0500</pubDate>
-        <link>/blog//its-not-always-that-simple</link>
-        <guid isPermaLink="true">/blog//its-not-always-that-simple</guid>
+        <link>/blog/its-not-always-that-simple</link>
+        <guid isPermaLink="true">/blog/its-not-always-that-simple</guid>
         
         
         <category>motivation</category>
@@ -245,11 +245,11 @@ table.&lt;/p&gt;
 
 &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in finibus diam, sit amet sollicitudin dui. Praesent erat dui, mattis sed elementum non, molestie et ipsum. Quisque fringilla vitae dolor a lacinia. Integer aliquam arcu non tortor egestas volutpat. Proin vitae pretium purus, a rhoncus sapien. Nam posuere rutrum lorem, eu sagittis ante scelerisque pretium. Morbi fermentum mauris a elit lacinia venenatis. Nunc ut iaculis nunc, sed faucibus nulla. Nunc at massa ut mi varius venenatis et id nibh. Sed molestie nibh sed risus mattis elementum. Ut iaculis, dolor sed consequat efficitur, nisi risus scelerisque dui, at bibendum velit nisi quis risus. Nunc gravida leo ut arcu tempus, et iaculis ex ullamcorper. Maecenas eget dolor diam. Suspendisse dapibus pulvinar tempus.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;//blog/img/post-assets/walk.jpg&quot; alt=&quot;walk&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;//blogimg/post-assets/walk.jpg&quot; alt=&quot;walk&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;//blog/img/post-assets/water.jpg&quot; alt=&quot;water&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;//blogimg/post-assets/water.jpg&quot; alt=&quot;water&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;//blog/img/post-assets/woods.jpg&quot; alt=&quot;woods&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;//blogimg/post-assets/woods.jpg&quot; alt=&quot;woods&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Vestibulum semper dui risus, ut vestibulum ex vestibulum in. Duis vel placerat augue. Morbi dapibus turpis nisi, eleifend hendrerit ligula congue non. Vestibulum felis velit, vulputate at metus ac, ullamcorper pharetra sapien. Praesent eget nibh scelerisque, scelerisque velit semper, ultrices velit. Nunc luctus quam ut condimentum sodales. Quisque eget eleifend nibh. Donec sit amet metus massa.&lt;/p&gt;
 
@@ -259,8 +259,8 @@ table.&lt;/p&gt;
 
 </description>
         <pubDate>Tue, 10 Feb 2015 00:00:00 -0500</pubDate>
-        <link>/blog//stop-thinking-and-start-doing</link>
-        <guid isPermaLink="true">/blog//stop-thinking-and-start-doing</guid>
+        <link>/blog/stop-thinking-and-start-doing</link>
+        <guid isPermaLink="true">/blog/stop-thinking-and-start-doing</guid>
         
         
         <category>motivation</category>
