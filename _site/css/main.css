@@ -7514,15 +7514,17 @@ ol {
       padding: 0 20px;
       color: #DADADA;
       font-style: normal;
-      font-size: 14px;
-      font-size: 1.4rem; }
+      font-size: 24px;
+      font-size: 2.4rem; }
     #jPanelMenu-menu li a {
       color: #DADADA;
       font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
       font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: lowercase;
       border-bottom: 0 transparent;
-      font-size: 12px;
-      font-size: 1.2rem; }
+      font-size: 22px;
+      font-size: 2.2rem; }
       #jPanelMenu-menu li a:hover {
         border-bottom: none;
         color: #fff; }
