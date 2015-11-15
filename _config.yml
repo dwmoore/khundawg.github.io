@@ -9,11 +9,11 @@ permalink: :title
 nav_list:
   Home : ['Home', '/', 'fa-home']
   About : ['About Me', '/about', 'fa-street-view']
-  Contact : ['Contact', '/contact', 'fa-plane']
-single_footer: '<p>Thats all folks! &copy; 2015 <a href="/">latest posts</a></p>'
+  # Contact : ['Contact', '/contact', 'fa-envelope-o']
+single_footer: '<p>davemoore.io &copy; 2015 <a href="/">latest posts</a></p>'
 footer_links:
-    About: ['About', '/about']
-    Writer: ['Writer 2015', '/about']
+  About: ['About', '/about']
+  # Contact : ['Contact', '/contact']
 
 
 # Build settings

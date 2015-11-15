@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="no-js">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>davemoore.io | Pundit - Part 1</title>
+    <meta name="description" content="Pundit is a Ruby gem for managing authorization in Rails. If you need to dothings like allow certain users to access an admin dashboard but prohibit accessto...">
+
+    <link rel="stylesheet" href="/blog/css/main.css">
+
+    <link rel="canonical" href="http://khundawg.github.io/blog/pundit-1">
+    <link rel="alternate" type="application/rss+xml" title="davemoore.io" href="http://khundawg.github.io/blog/feed.xml" />
+
+    <!--[if lt IE 9]>
+        <script src="/blog/js/vendor/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+
+
+  <body class="">
+
+    <header class="hero-image" style="background-image: url(/blog/img/feature/landscape-001.jpg);">
+    <span class="menu-trigger animated fadeInDown">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </span>
+
+    <!-- if the user has javascript disabled they can still use the menu -->
+<noscript>
+    <div class="no-js-menu">
+        <ul>
+            
+                <li><i class="fa fa-home"></i><a href="/blog/">Home</a></li>
+            
+                <li><i class="fa fa-street-view"></i><a href="/blog/about">About Me</a></li>
+            
+        </ul>
+    </div>
+</noscript>
+<!-- end no script -->
+
+    <div id="menu-target">
+    <ul>
+        
+            <li><i class="fa fa-home"></i><a href="/blog/">Home</a></li>
+        
+            <li><i class="fa fa-street-view"></i><a href="/blog/about">About Me</a></li>
+        
+    </ul>
+</div>
+
+</header>
+
+<main class="container">
+    <div class="row">
+        <div class="col-xs-12 single-content">
+            <p class="meta">
+                Posted November 1, 2015 in <a href='/blog/category/'>Code</a> <i class="link-spacer"></i> <i class="fa fa-bookmark"></i> 5 minutes
+            </p>
+
+            <h1>Pundit - Part 1</h1>
+
+            <p>Pundit is a Ruby gem for managing authorization in Rails. If you need to do
+things like allow certain users to access an admin dashboard but prohibit access
+to others, you’re in the right place.</p>
+
+<p>Now, let’s get to it. Shall we?</p>
+
+<h2 id="whats-under-the-hood">What’s Under the Hood?</h2>
+
+<p>Pundit is all about policies. They define access through a collection of basic 
+<code>true</code> or <code>false</code> methods.</p>
+
+<p>Policies correspond to your controllers. For example, if you have a 
+<code>users_controller.rb</code> then you’ll probably want a <code>users_policy.rb</code>. They go
+together like peas and carrots.</p>
+
+<h2 id="pundit-in-action">Pundit In Action</h2>
+
+<p>The access request begins within the controller by calling the <code>authorize</code>
+method:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">SuppliersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="vi">@supplier</span> <span class="o">=</span> <span class="no">Supplier</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+    <span class="n">authorize</span><span class="p">(</span><span class="vi">@supplier</span><span class="p">)</span> <span class="c1"># &lt;--- Pundit call to the SupplierPolicy</span>
+  <span class="k">end</span>
+
+  <span class="c1"># moar controller...</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Generally, the only parameter to the <code>authorize</code> method will be the record you 
+are seeking to access.</p>
+
+<p>Pundit infers three things when <code>authorize(@supplier)</code> is called.</p>
+
+<ol>
+  <li>There is a current_user available</li>
+  <li>There is a <code>SupplierPolicy</code> (inferred from the @supplier parameter)</li>
+  <li>There is a boolean method of the same name (e.g. <code>show?</code>) defined within the 
+<code>SupplierPolicy</code> that returns a truthy response.</li>
+</ol>
+
+<p>With that information, the <code>authorize</code> method looks up the correct policy and we
+continue the journey…</p>
+
+<h2 id="thats-just-the-policy-sir">That’s Just the Policy Sir</h2>
+
+<p>Now that we’ve instantiated the correct policy, let’s what we got.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">SupplierPolicy</span>
+  <span class="kp">attr_reader</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:record</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="n">user</span> <span class="c1"># &lt;--- This is the current_user</span>
+    <span class="vi">@record</span> <span class="o">=</span> <span class="n">record</span> <span class="c1"># &lt;--- This is the variable @supplier</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show?</span> <span class="c1"># &lt;--- See, they match!</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">admin?</span> <span class="c1"># &lt;--- Returns true or false</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>As the <code>SupplierPolicy</code> is initialized we set up an instance variable <code>@user</code>
+with our current_user. We also set the <code>@record</code> instance variable to our 
+<code>@supplier</code> variable we passed in to the <code>authorize</code> method call.</p>
+
+<p>With both the user and record available, we can now run all manner of checks to
+see if we should allow a given action to continue.</p>
+
+<p>In the example, we call the <code>admin?</code> method on <code>user</code> (which we set up with the 
+attr_reader). The <code>admin?</code> method should return either <code>true</code> or <code>false</code>, in 
+turn meaning the <code>show?</code> method will return <code>true</code> or <code>false</code>.</p>
+
+<blockquote>
+  <p>Note: If you use Rails Enums to store your classification attributes, you’ll get 
+boolean methods for free. Otherwise, we’ll need to make them ourselves.</p>
+</blockquote>
+
+<p>So, if the <code>user</code> is an admin, <code>show?</code> will be <code>true</code> and we’ll allow him to 
+access the show action. </p>
+
+<p>You’ll find these types of checks are common in most applications but you can
+also have checks based on the record as well. For example, if <code>Supplier</code> has a
+<code>:published</code> attribute, we may also want something like…</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">SupplierPolicy</span>
+  <span class="kp">attr_reader</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:record</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="n">user</span>
+    <span class="vi">@record</span> <span class="o">=</span> <span class="n">record</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show?</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">admin?</span> <span class="o">||</span> <span class="n">record</span><span class="o">.</span><span class="n">published?</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Now we can allow admins to view any supplier record and at the same time allow 
+non admin users to only access supplier records that have been published.</p>
+
+<h2 id="the-rest-of-the-story">The Rest of the Story</h2>
+
+<p>That’s it for today but there’s more to come. In part 2 we will take a look at
+scopes and limiting access to lists of records.</p>
+
+<p>Until then, cheers!</p>
+
+
+
+        </div><!-- main-content/col -->
+    </div> <!--/row -->
+
+</main> <!-- /container -->
+
+<footer class="single">
+    <div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-2">
+            <img src="/blog/img/dave.jpg" class="user-icon " alt="user-image">
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="category-list">
+                <p>Published <span>Nov 1, 2015</span></p>
+                <p><a href="/blog/about">Dave moore</a> in <a href='/blog/category/code'>Code</a></p>
+
+
+            </div>
+        </div><!-- end col -->
+        <div class="col-xs-12 col-sm-4">
+            <div class="social">
+                <p>Share this article</a>
+                <div class="social-links">
+                    <a class="social-icon" href="#" data-platform="twitter" data-message="" data-url="http://khundawg.github.io/blog/pundit-1"><i class="fa fa-twitter"></i></a>
+
+                    <a class="social-icon" href="#" data-platform="facebook" data-message="" data-url="http://khundawg.github.io/blog/pundit-1"><i class="fa fa-facebook-official"></i></a>
+                    <a class="social-icon" data-platform="mail"  href="mailto:dave@davemoore.io?body=http://khundawg.github.io/blog/pundit-1"><i class="fa fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </div><!-- end row -->
+</div>
+
+
+    
+</footer>
+
+
+
+
+    <script src='/blog/js/vendor/modernizr.custom.32229-2.8-respondjs-1-4-2.js'></script>
+    <script src="/blog/js/vendor/jquery-1.11.2.min.js"></script>
+    <script src='/blog/js/vendor/jquery.jpanelmenu.min.js'></script>
+    <script type='application/javascript' src='/blog/js/vendor/fastclick.min.js'></script>
+    
+    <script src=' /blog/js/main.js'></script>
+  </body>
+
+</html>

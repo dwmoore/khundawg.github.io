@@ -1,14 +1,21 @@
 ---
 layout: page
-title: About
+title: About Dave
 permalink: /about/
-feature_image: feature-book
+feature_image: feature/landscape-008
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+Hello there! Thanks for stopping by.
 
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
+My name is Dave and I enjoy building things. I also enjoy travel, snowboarding,
+classic cars, and a good beer with friends.
 
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
+I do full stack development, mostly for startups. My goto tools are Ruby, Rails, 
+JavaScript, jQuery, Sass, and Bootstrap.
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius voluptatum tenetur explicabo, vel, praesentium corrupti repudiandae veniam totam reprehenderit, temporibus delectus possimus provident sint rem ex maiores ratione sunt deserunt.
+I am also the founding member of KnoxRuby, a twice monthly Ruby/Rails meetup and 
+co-host of Knoxville's first Rails Bridge workshop.
+
+If you're ever around, hit me up and let's have a pint!
+
+Cheers!

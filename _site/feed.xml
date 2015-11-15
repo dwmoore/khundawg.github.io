@@ -5,271 +5,127 @@
     <description>All the things that aggrivated me enough to write for an hour...</description>
     <link>http://khundawg.github.io/blog/</link>
     <atom:link href="http://khundawg.github.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 09 Nov 2015 13:46:20 -0500</pubDate>
-    <lastBuildDate>Mon, 09 Nov 2015 13:46:20 -0500</lastBuildDate>
+    <pubDate>Sun, 15 Nov 2015 12:45:01 -0500</pubDate>
+    <lastBuildDate>Sun, 15 Nov 2015 12:45:01 -0500</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>My MVP Stack</title>
-        <description>&lt;p&gt;Here is a intro…&lt;/p&gt;
+        <title>Pundit - Part 1</title>
+        <description>&lt;p&gt;Pundit is a Ruby gem for managing authorization in Rails. If you need to do
+things like allow certain users to access an admin dashboard but prohibit access
+to others, you’re in the right place.&lt;/p&gt;
+
+&lt;p&gt;Now, let’s get to it. Shall we?&lt;/p&gt;
+
+&lt;h2 id=&quot;whats-under-the-hood&quot;&gt;What’s Under the Hood?&lt;/h2&gt;
+
+&lt;p&gt;Pundit is all about policies. They define access through a collection of basic 
+&lt;code&gt;true&lt;/code&gt; or &lt;code&gt;false&lt;/code&gt; methods.&lt;/p&gt;
+
+&lt;p&gt;Policies correspond to your controllers. For example, if you have a 
+&lt;code&gt;users_controller.rb&lt;/code&gt; then you’ll probably want a &lt;code&gt;users_policy.rb&lt;/code&gt;. They go
+together like peas and carrots.&lt;/p&gt;
+
+&lt;h2 id=&quot;pundit-in-action&quot;&gt;Pundit In Action&lt;/h2&gt;
+
+&lt;p&gt;The access request begins within the controller by calling the &lt;code&gt;authorize&lt;/code&gt;
+method:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SuppliersController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;show&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@supplier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Supplier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;authorize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@supplier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# &amp;lt;--- Pundit call to the SupplierPolicy&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# moar controller...&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Generally, the only parameter to the &lt;code&gt;authorize&lt;/code&gt; method will be the record you 
+are seeking to access.&lt;/p&gt;
+
+&lt;p&gt;Pundit infers three things when &lt;code&gt;authorize(@supplier)&lt;/code&gt; is called.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;There is a current_user available&lt;/li&gt;
+  &lt;li&gt;There is a &lt;code&gt;SupplierPolicy&lt;/code&gt; (inferred from the @supplier parameter)&lt;/li&gt;
+  &lt;li&gt;There is a boolean method of the same name (e.g. &lt;code&gt;show?&lt;/code&gt;) defined within the 
+&lt;code&gt;SupplierPolicy&lt;/code&gt; that returns a truthy response.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;With that information, the &lt;code&gt;authorize&lt;/code&gt; method looks up the correct policy and we
+continue the journey…&lt;/p&gt;
+
+&lt;h2 id=&quot;thats-just-the-policy-sir&quot;&gt;That’s Just the Policy Sir&lt;/h2&gt;
+
+&lt;p&gt;Now that we’ve instantiated the correct policy, let’s what we got.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SupplierPolicy&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;attr_reader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:record&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;record&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# &amp;lt;--- This is the current_user&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@record&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;record&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# &amp;lt;--- This is the variable @supplier&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;show?&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# &amp;lt;--- See, they match!&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;admin?&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# &amp;lt;--- Returns true or false&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;As the &lt;code&gt;SupplierPolicy&lt;/code&gt; is initialized we set up an instance variable &lt;code&gt;@user&lt;/code&gt;
+with our current_user. We also set the &lt;code&gt;@record&lt;/code&gt; instance variable to our 
+&lt;code&gt;@supplier&lt;/code&gt; variable we passed in to the &lt;code&gt;authorize&lt;/code&gt; method call.&lt;/p&gt;
+
+&lt;p&gt;With both the user and record available, we can now run all manner of checks to
+see if we should allow a given action to continue.&lt;/p&gt;
+
+&lt;p&gt;In the example, we call the &lt;code&gt;admin?&lt;/code&gt; method on &lt;code&gt;user&lt;/code&gt; (which we set up with the 
+attr_reader). The &lt;code&gt;admin?&lt;/code&gt; method should return either &lt;code&gt;true&lt;/code&gt; or &lt;code&gt;false&lt;/code&gt;, in 
+turn meaning the &lt;code&gt;show?&lt;/code&gt; method will return &lt;code&gt;true&lt;/code&gt; or &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Note: If you use Rails Enums to store your classification attributes, you’ll get 
+boolean methods for free. Otherwise, we’ll need to make them ourselves.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So, if the &lt;code&gt;user&lt;/code&gt; is an admin, &lt;code&gt;show?&lt;/code&gt; will be &lt;code&gt;true&lt;/code&gt; and we’ll allow him to 
+access the show action. &lt;/p&gt;
+
+&lt;p&gt;You’ll find these types of checks are common in most applications but you can
+also have checks based on the record as well. For example, if &lt;code&gt;Supplier&lt;/code&gt; has a
+&lt;code&gt;:published&lt;/code&gt; attribute, we may also want something like…&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SupplierPolicy&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;attr_reader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:record&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;record&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@record&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;record&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;show?&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;admin?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;record&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;published?&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can allow admins to view any supplier record and at the same time allow 
+non admin users to only access supplier records that have been published.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-rest-of-the-story&quot;&gt;The Rest of the Story&lt;/h2&gt;
+
+&lt;p&gt;That’s it for today but there’s more to come. In part 2 we will take a look at
+scopes and limiting access to lists of records.&lt;/p&gt;
+
+&lt;p&gt;Until then, cheers!&lt;/p&gt;
+
 </description>
-        <pubDate>Mon, 09 Nov 2015 00:00:00 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/my-mvp-stack</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/my-mvp-stack</guid>
+        <pubDate>Sun, 01 Nov 2015 00:00:00 -0400</pubDate>
+        <link>http://khundawg.github.io/blog/pundit-1</link>
+        <guid isPermaLink="true">http://khundawg.github.io/blog/pundit-1</guid>
         
         
         <category>code</category>
-        
-      </item>
-    
-      <item>
-        <title>Making White Boarding Matter</title>
-        <description>&lt;p&gt;White Boarding. It’s something we’ve all done, often from both ends of the
-table.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 07 Nov 2015 00:00:00 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/white-boarding</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/white-boarding</guid>
-        
-        
-        <category>travel</category>
-        
-        <category>storytime</category>
-        
-      </item>
-    
-      <item>
-        <title>Test Post</title>
-        <description>&lt;p&gt;Here is a test post to see if I have this working right.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 01 Nov 2015 03:50:28 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/test-post</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/test-post</guid>
-        
-        
-        <category>travel</category>
-        
-        <category>storytime</category>
-        
-      </item>
-    
-      <item>
-        <title>10 Reasons to travel the world</title>
-        <description>&lt;p&gt;Ask yourself, why not? What is the number one reason you wouldn’t. If the reason you get back is fear, you should just do it.&lt;/p&gt;
-
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati doloribus, culpa, et suscipit praesentium incidunt, libero officiis ipsum fugiat odit aperiam commodi unde dignissimos veritatis accusamus molestias iste magni nobis?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://khundawg.github.io//blogimg/post-assets/fire.jpg&quot; alt=&quot;Fire image&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Kale chips bespoke church-key American Apparel flannel pickled. Mlkshk High Life Blue Bottle, leggings gastropub four dollar toast post-ironic fap American Apparel VHS. Cliche cold-pressed single-origin coffee mlkshk retro distillery. 3 wolf moon Tumblr selvage semiotics food truck. Intelligentsia Pitchfork meh sriracha chambray, fanny pack lomo irony fap pickled stumptown. Twee +1 artisan, cred ethical gluten-free 90’s four loko Odd Future cronut small batch organic. Seitan hashtag jean shorts art party messenger bag.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Scenester Echo Park tilde&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Locavore brunch kale chips vegan selvage High Life you probably haven’t heard of them before they sold out pork belly. Flexitarian organic wayfarers, cronut food truck bicycle rights drinking vinegar bespoke meditation mustache swag mumblecore semiotics locavore. Whatever kogi readymade, jean shorts pork belly chia distillery wayfarers. Art party single-origin coffee four dollar toast VHS, try-hard hoodie kogi normcore Neutra actually church-key flexitarian swag.&lt;/p&gt;
-
-</description>
-        <pubDate>Wed, 11 Feb 2015 03:50:28 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/ten-reasons-to-travel-the-world</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/ten-reasons-to-travel-the-world</guid>
-        
-        
-        <category>travel</category>
-        
-        <category>storytime</category>
-        
-      </item>
-    
-      <item>
-        <title>Supercharge Your Workflow With Grunt</title>
-        <description>&lt;p&gt;The Grunt ecosystem is huge and it’s growing every day. With literally hundreds of plugins to choose from, you can use Grunt to automate just about anything with a minimum of effort. If someone hasn’t already built what you need, authoring and publishing your own Grunt plugin to npm is a breeze. See how to &lt;a href=&quot;http://gruntjs.com/&quot;&gt;get started&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In one word: automation. The less work you have to do when performing repetitive tasks like minification, compilation, unit testing, linting, etc, the easier your job becomes. After you’ve configured it through a Gruntfile, a task runner can do most of that mundane work for you—and your team—with basically zero effort.&lt;/p&gt;
-
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;s2&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;my-project-name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;s2&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;0.1.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;s2&quot;&gt;&amp;quot;devDependencies&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&amp;quot;grunt&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;~0.4.5&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&amp;quot;grunt-contrib-jshint&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;~0.10.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&amp;quot;grunt-contrib-nodeunit&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;~0.4.1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&amp;quot;grunt-contrib-uglify&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;~0.5.0&amp;quot;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The easiest way to add Grunt and gruntplugins to an existing &lt;code&gt;package.json&lt;/code&gt; is with the command &lt;code&gt;npm install &amp;lt;module&amp;gt; --save-dev&lt;/code&gt;. Not only will this install &lt;code&gt;&amp;lt;module&amp;gt;&lt;/code&gt; locally, but it will automatically be added to the devDependencies section, using a tilde version range.&lt;/p&gt;
-
-&lt;p&gt;For example, this will install the latest version of Grunt in your project folder, adding it to your devDependencies:&lt;/p&gt;
-
-&lt;p&gt;Grunt&lt;/p&gt;
-</description>
-        <pubDate>Wed, 11 Feb 2015 03:50:28 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/supercharge-your-workflow-with-grunt</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/supercharge-your-workflow-with-grunt</guid>
-        
-        
-        <category>coding</category>
-        
-        <category>js</category>
-        
-      </item>
-    
-      <item>
-        <title>CSS with Superpowers</title>
-        <description>&lt;p&gt;Sass is completely compatible with all versions of CSS. We take this compatibility seriously, so that you can seamlessly use any available CSS libraries.&lt;/p&gt;
-
-&lt;p&gt;Sass boasts more features and abilities than any other CSS extension language out there. The Sass Core Team has worked endlessly to not only keep up, but stay ahead.&lt;/p&gt;
-
-&lt;h2 id=&quot;mature&quot;&gt;Mature&lt;/h2&gt;
-&lt;p&gt;Sass has been actively supported for about 8 years by its loving Core&lt;/p&gt;
-
-&lt;h2 id=&quot;team&quot;&gt;Team&lt;/h2&gt;
-&lt;p&gt;Over and over again, the industry is choosing Sass as the premier CSS extension language.&lt;/p&gt;
-
-&lt;h2 id=&quot;large-community&quot;&gt;Large Community&lt;/h2&gt;
-&lt;p&gt;Sass is actively supported and developed by a consortium of several tech companies and hundreds of developers.&lt;/p&gt;
-
-&lt;h2 id=&quot;frameworks&quot;&gt;Frameworks&lt;/h2&gt;
-&lt;p&gt;There are endless number of frameworks built with Sass. Compass, Bourbon, and Susy just to name a few.&lt;/p&gt;
-
-&lt;p&gt;Dreamcatcher cold-pressed American Apparel, post-ironic Carles Shoreditch craft beer Banksy PBR retro distillery before they sold out freegan asymmetrical kogi. Food truck Schlitz direct trade, deep v ethical yr sriracha mumblecore freegan. Tattooed occupy pork belly, letterpress typewriter cold-pressed viral swag farm-to-table flexitarian. +1 hashtag put a bird on it authentic. 3 wolf moon locavore Vice, normcore actually meggings leggings cornhole brunch. Four loko vinyl trust fund, Intelligentsia wolf Bushwick lo-fi sriracha. Deep v vegan forage selvage.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 11 Feb 2015 03:50:28 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/css-with-superpowers</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/css-with-superpowers</guid>
-        
-        
-        <category>coding</category>
-        
-        <category>css</category>
-        
-      </item>
-    
-      <item>
-        <title>You Dont Have To Be Great To Get Started</title>
-        <description>&lt;p&gt;It was a cold December morning, as I sat out on my porch I decided today was the day.&lt;/p&gt;
-
-&lt;p&gt;Dreamcatcher cold-pressed American Apparel, post-ironic Carles Shoreditch craft beer Banksy PBR retro distillery before they sold out freegan asymmetrical kogi. Food truck Schlitz direct trade, deep v ethical yr sriracha mumblecore freegan. Tattooed occupy pork belly, letterpress typewriter cold-pressed viral swag farm-to-table flexitarian. +1 hashtag put a bird on it authentic. 3 wolf moon locavore Vice, normcore actually meggings leggings cornhole brunch. Four loko vinyl trust fund, Intelligentsia wolf Bushwick lo-fi sriracha. Deep v vegan forage selvage.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://khundawg.github.io//blogimg/post-assets/view.jpg&quot; alt=&quot;view&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam nihil eum cum quas! Consectetur aliquam molestias quos voluptatum recusandae accusantium eaque sed architecto esse. Ut obcaecati, porro numquam sed. Odio.&lt;/p&gt;
-
-&lt;p&gt;Dreamcatcher cold-pressed American Apparel, post-ironic Carles Shoreditch craft beer Banksy PBR retro distillery before they sold out freegan asymmetrical kogi. Food truck Schlitz direct trade, deep v ethical yr sriracha mumblecore freegan. Tattooed occupy pork belly, letterpress typewriter cold-pressed viral swag farm-to-table flexitarian. +1 hashtag put a bird on it authentic. 3 wolf moon locavore Vice, normcore actually meggings leggings cornhole brunch. Four loko vinyl trust fund, Intelligentsia wolf Bushwick lo-fi sriracha. Deep v vegan forage selvage.&lt;/p&gt;
-
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quam provident accusamus vero autem culpa illum quo enim maiores eius error, sapiente inventore cum hic earum. Libero porro quisquam harum.&lt;/p&gt;
-
-</description>
-        <pubDate>Tue, 10 Feb 2015 00:00:00 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/you-dont-have-to-be-great-to-get-started</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/you-dont-have-to-be-great-to-get-started</guid>
-        
-        
-        <category>motivation</category>
-        
-        <category>leadership</category>
-        
-        <category>journey</category>
-        
-      </item>
-    
-      <item>
-        <title>Why React JS Will Change the World</title>
-        <description>&lt;p&gt;React components implement a &lt;code&gt;render()&lt;/code&gt; method that takes input data and returns what to display. This example uses an XML-like syntax called JSX. Input data that is passed into the component can be accessed by &lt;code&gt;render()&lt;/code&gt; via &lt;code&gt;this.props&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;build/react.js&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;build/JSXTransformer.js&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;example&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text/jsx&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;world&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/h1&amp;gt;,&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;example&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;want-commonjs&quot;&gt;Want CommonJS?&lt;/h2&gt;
-&lt;p&gt;If you want to use React with browserify, webpack, or another CommonJS-compatible module system, just use the react npm package. In addition, the jsx build tool can be integrated into most packaging systems (not just CommonJS) quite easily.&lt;/p&gt;
-
-&lt;h2 id=&quot;next-steps&quot;&gt;Next Steps&lt;/h2&gt;
-&lt;p&gt;Check out the tutorial and the other examples in the starter kit’s examples directory to learn more.&lt;/p&gt;
-
-&lt;p&gt;We also have a wiki where the community contributes with workflows, UI-components, routing, data management etc.&lt;/p&gt;
-
-&lt;p&gt;Good luck, and welcome!&lt;/p&gt;
-</description>
-        <pubDate>Tue, 10 Feb 2015 00:00:00 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/why-react-js-will-change-the-world</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/why-react-js-will-change-the-world</guid>
-        
-        
-        <category>coding</category>
-        
-        <category>js</category>
-        
-      </item>
-    
-      <item>
-        <title>Stop Thinking And Start Doing</title>
-        <description>&lt;p&gt;Get out of your head. Every good decision starts with a momment of action. What are you going to do today!&lt;/p&gt;
-
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in finibus diam, sit amet sollicitudin dui. Praesent erat dui, mattis sed elementum non, molestie et ipsum. Quisque fringilla vitae dolor a lacinia. Integer aliquam arcu non tortor egestas volutpat. Proin vitae pretium purus, a rhoncus sapien. Nam posuere rutrum lorem, eu sagittis ante scelerisque pretium. Morbi fermentum mauris a elit lacinia venenatis. Nunc ut iaculis nunc, sed faucibus nulla. Nunc at massa ut mi varius venenatis et id nibh. Sed molestie nibh sed risus mattis elementum. Ut iaculis, dolor sed consequat efficitur, nisi risus scelerisque dui, at bibendum velit nisi quis risus. Nunc gravida leo ut arcu tempus, et iaculis ex ullamcorper. Maecenas eget dolor diam. Suspendisse dapibus pulvinar tempus.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://khundawg.github.io//blogimg/post-assets/walk.jpg&quot; alt=&quot;walk&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://khundawg.github.io//blogimg/post-assets/water.jpg&quot; alt=&quot;water&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://khundawg.github.io//blogimg/post-assets/woods.jpg&quot; alt=&quot;woods&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Vestibulum semper dui risus, ut vestibulum ex vestibulum in. Duis vel placerat augue. Morbi dapibus turpis nisi, eleifend hendrerit ligula congue non. Vestibulum felis velit, vulputate at metus ac, ullamcorper pharetra sapien. Praesent eget nibh scelerisque, scelerisque velit semper, ultrices velit. Nunc luctus quam ut condimentum sodales. Quisque eget eleifend nibh. Donec sit amet metus massa.&lt;/p&gt;
-
-&lt;p&gt;Quisque sagittis arcu quis mauris consectetur tempus. Etiam id erat pretium, rutrum quam ut, commodo lacus. Proin vitae condimentum odio. Morbi facilisis ligula vitae auctor pretium. Fusce lorem lectus, ultrices sit amet neque ut, condimentum bibendum libero. Mauris cursus neque eros, vel consectetur quam mollis nec. Mauris quis est nec elit euismod condimentum. Vestibulum imperdiet suscipit elit et scelerisque. Vivamus mollis sagittis ante.&lt;/p&gt;
-
-&lt;p&gt;Aenean commodo, massa quis mattis lacinia, mi ipsum vestibulum nisi, ut tincidunt massa erat quis neque. Aliquam volutpat eu ligula a tincidunt. Suspendisse imperdiet, lacus vitae pretium imperdiet, nisi elit efficitur felis, id ullamcorper nulla dolor ac massa. In rutrum eget nisi et maximus. Nam consequat libero et feugiat lobortis. Donec sit amet felis faucibus, egestas enim id, condimentum justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed aliquam, nisl vel volutpat semper, mi lacus tempus ante, hendrerit consequat massa lorem at lacus. Phasellus vel felis scelerisque, consectetur arcu ac, euismod massa.&lt;/p&gt;
-
-</description>
-        <pubDate>Tue, 10 Feb 2015 00:00:00 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/stop-thinking-and-start-doing</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/stop-thinking-and-start-doing</guid>
-        
-        
-        <category>motivation</category>
-        
-        <category>storytime</category>
-        
-      </item>
-    
-      <item>
-        <title>Its Not Always That Simple</title>
-        <description>&lt;p&gt;If you always do what you’ve always done, you’ll always get what you’ve always had.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Want shows up in what you say, expectation shows up in behaviour&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in finibus diam, sit amet sollicitudin dui. Praesent erat dui, mattis sed elementum non, molestie et ipsum. Quisque fringilla vitae dolor a lacinia. Integer aliquam arcu non tortor egestas volutpat. Proin vitae pretium purus, a rhoncus sapien. Nam posuere rutrum lorem, eu sagittis ante scelerisque pretium. Morbi fermentum mauris a elit lacinia venenatis. Nunc ut iaculis nunc, sed faucibus nulla. Nunc at massa ut mi varius venenatis et id nibh. Sed molestie nibh sed risus mattis elementum. Ut iaculis, dolor sed consequat efficitur, nisi risus scelerisque dui, at bibendum velit nisi quis risus. Nunc gravida leo ut arcu tempus, et iaculis ex ullamcorper. Maecenas eget dolor diam. Suspendisse dapibus pulvinar tempus.&lt;/p&gt;
-
-&lt;p&gt;Vestibulum semper dui risus, ut vestibulum ex vestibulum in. Duis vel placerat augue. Morbi dapibus turpis nisi, eleifend hendrerit ligula congue non. Vestibulum felis velit, vulputate at metus ac, ullamcorper pharetra sapien. Praesent eget nibh scelerisque, scelerisque velit semper, ultrices velit. Nunc luctus quam ut condimentum sodales. Quisque eget eleifend nibh. Donec sit amet metus massa.&lt;/p&gt;
-
-&lt;p&gt;Quisque sagittis arcu quis mauris consectetur tempus. Etiam id erat pretium, rutrum quam ut, commodo lacus. Proin vitae condimentum odio. Morbi facilisis ligula vitae auctor pretium. Fusce lorem lectus, ultrices sit amet neque ut, condimentum bibendum libero. Mauris cursus neque eros, vel consectetur quam mollis nec. Mauris quis est nec elit euismod condimentum. Vestibulum imperdiet suscipit elit et scelerisque. Vivamus mollis sagittis ante.&lt;/p&gt;
-
-&lt;p&gt;Aenean commodo, massa quis mattis lacinia, mi ipsum vestibulum nisi, ut tincidunt massa erat quis neque. Aliquam volutpat eu ligula a tincidunt. Suspendisse imperdiet, lacus vitae pretium imperdiet, nisi elit efficitur felis, id ullamcorper nulla dolor ac massa. In rutrum eget nisi et maximus. Nam consequat libero et feugiat lobortis. Donec sit amet felis faucibus, egestas enim id, condimentum justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed aliquam, nisl vel volutpat semper, mi lacus tempus ante, hendrerit consequat massa lorem at lacus. Phasellus vel felis scelerisque, consectetur arcu ac, euismod massa.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 10 Feb 2015 00:00:00 -0500</pubDate>
-        <link>http://khundawg.github.io/blog/its-not-always-that-simple</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/its-not-always-that-simple</guid>
-        
-        
-        <category>motivation</category>
         
       </item>
     
