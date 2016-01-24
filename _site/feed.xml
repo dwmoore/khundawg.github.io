@@ -3,10 +3,10 @@
   <channel>
     <title>davemoore.io</title>
     <description>All the things that aggrivated me enough to write for an hour...</description>
-    <link>http://khundawg.github.io/blog/</link>
-    <atom:link href="http://khundawg.github.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 15 Nov 2015 12:45:01 -0500</pubDate>
-    <lastBuildDate>Sun, 15 Nov 2015 12:45:01 -0500</lastBuildDate>
+    <link>http://khundawg.github.io//</link>
+    <atom:link href="http://khundawg.github.io//feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 24 Jan 2016 18:42:05 -0500</pubDate>
+    <lastBuildDate>Sun, 24 Jan 2016 18:42:05 -0500</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -121,8 +121,8 @@ scopes and limiting access to lists of records.&lt;/p&gt;
 
 </description>
         <pubDate>Sun, 01 Nov 2015 00:00:00 -0400</pubDate>
-        <link>http://khundawg.github.io/blog/pundit-1</link>
-        <guid isPermaLink="true">http://khundawg.github.io/blog/pundit-1</guid>
+        <link>http://khundawg.github.io//pundit-1</link>
+        <guid isPermaLink="true">http://khundawg.github.io//pundit-1</guid>
         
         
         <category>code</category>
