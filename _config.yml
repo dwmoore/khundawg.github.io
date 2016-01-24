@@ -2,8 +2,8 @@
 title: davemoore.io
 email: dave@davemoore.io
 description: All the things that aggrivated me enough to write for an hour...
-baseurl: "/" # the subpath of your site, e.g. /blog
-url: "http://khundawg.github.io" # the base hostname & protocol for your site
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://davemoore.io" # the base hostname & protocol for your site
 enable_retina: false
 permalink: :title
 nav_list:
