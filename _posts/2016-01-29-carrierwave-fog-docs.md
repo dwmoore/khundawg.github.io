@@ -21,7 +21,7 @@ Here's the trick, RubyGems links to the 0.10.0 version while GitHub shows
 master. Instead of referring to the master docs, be sure you look over the 0.10.0
 readme:
 
-CarrierWave 0.10.0
+CarrierWave 0.10.0  
 Fog >= 1.3.1
 
 {% highlight ruby %}
@@ -34,11 +34,13 @@ CarrierWave.configure do |config|
     :host                   => 's3.example.com',             # optional, defaults to nil
     :endpoint               => 'https://s3.example.com:8080' # optional, defaults to nil
   }
-  config.fog_directory  = 'name_of_directory'                     # required
-  config.fog_public     = false                                   # optional, defaults to true
+  config.fog_directory  = 'name_of_directory'                # required
+  config.fog_public     = false                              # optional, defaults to true
   config.fog_attributes = {'Cache-Control'=>'max-age=315576000'}  # optional, defaults to {}
 end
 {% endhighlight %}
+
+[https://github.com/carrierwaveuploader/carrierwave/tree/v0.10.0](https://github.com/carrierwaveuploader/carrierwave/tree/v0.10.0)
 
 The moral if the story friends is to always double check your version and refer
 to the correct docs!
